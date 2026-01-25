@@ -1,0 +1,3242 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DeTech</title>
+    <link rel="icon" type="image/x-icon" href="image/icon.png" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal-overlay">
+      <div class="login-modal">
+        <div class="login-header">
+          <div class="login-logo">
+            <i class="fas fa-seedling"></i>
+            <h2>DeTech</h2>
+          </div>
+          <p class="login-subtitle">Sistem Pintar Pendanaan UMKM Pedesaan</p>
+        </div>
+
+        <div class="form-group">
+          <label for="username">
+            <i class="fas fa-user"></i> Nama Pengguna
+          </label>
+          <input
+            type="text"
+            id="username"
+            class="form-control"
+            placeholder="Masukkan nama Anda"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="password"> <i class="fas fa-lock"></i> Kata Sandi </label>
+          <input
+            type="password"
+            id="password"
+            class="form-control"
+            placeholder="Masukkan kata sandi"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="languageInput">
+            <i class="fas fa-language"></i> Pilih Bahasa Lokal
+          </label>
+          <input
+            type="text"
+            id="languageInput"
+            class="form-control"
+            placeholder="Contoh: Jawa, Indonesia, Inggris"
+          />
+          <small class="hint-text"
+            >Semua konten akan diterjemahkan ke bahasa pilihan Anda</small
+          >
+        </div>
+
+        <button id="voiceBtn" class="voice-btn">
+          <i class="fas fa-microphone"></i>
+          <span id="voiceBtnText">Deteksi Bahasa dengan Suara</span>
+        </button>
+
+        <button id="loginBtn" class="btn-primary">
+          <i class="fas fa-sign-in-alt"></i>
+          <span id="loginBtnText">Masuk ke Dashboard</span>
+        </button>
+
+        <div class="login-footer">
+          <p>
+            <i class="fas fa-info-circle"></i> Bahasa akan direset ke Indonesia
+            saat logout
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main App Content -->
+    <div id="appContent" class="hidden">
+      <!-- Header -->
+      <header class="main-header">
+        <div class="container">
+          <div class="header-content">
+            <div class="logo-section">
+              <div class="logo">
+                <i class="fas fa-seedling"></i>
+                <div>
+                  <h1 id="appTitle">DeTech</h1>
+                  <p class="tagline" id="appSubtitle">
+                    Sistem Pintar Pendanaan UMKM Pedesaan
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="user-section">
+              <div class="user-info">
+                <div class="avatar">
+                  <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="user-details">
+                  <h3 id="welcomeText">Selamat Datang</h3>
+                  <p id="userName"></p>
+                </div>
+              </div>
+
+              <!-- Notification Bell -->
+              <div class="notification-bell">
+                <button id="notificationBtn">
+                  <i class="fas fa-bell"></i>
+                  <span class="notification-count" id="notificationBadge"
+                    >3</span
+                  >
+                </button>
+                <div class="notification-dropdown" id="notificationDropdown">
+                  <div class="notification-header">
+                    <h4 id="notificationTitle">Notifikasi</h4>
+                    <button class="mark-all-read" id="markAllRead">
+                      Tandai semua terbaca
+                    </button>
+                  </div>
+                  <div class="notification-list" id="notificationList">
+                    <!-- Notifications will be loaded here -->
+                  </div>
+                  <div class="notification-footer">
+                    <a href="#" id="viewAllNotifications"
+                      >Lihat semua notifikasi</a
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="header-actions">
+                <div class="language-selector">
+                  <button id="currentLangBtn" class="lang-btn">
+                    <i class="fas fa-globe"></i>
+                    <span id="currentLangText">Indonesia</span>
+                    <i class="fas fa-chevron-down"></i>
+                  </button>
+                  <div id="langDropdown" class="lang-dropdown">
+                    <div class="lang-option" data-lang="id">
+                      <i class="fas fa-flag"></i>
+                      <span>Bahasa Indonesia</span>
+                    </div>
+                    <div class="lang-option" data-lang="en">
+                      <i class="fas fa-flag-usa"></i>
+                      <span>English</span>
+                    </div>
+                    <div class="lang-option" data-lang="jv">
+                      <i class="fas fa-flag"></i>
+                      <span>Basa Jawa</span>
+                    </div>
+                    <div class="lang-option" data-lang="su">
+                      <i class="fas fa-flag"></i>
+                      <span>Basa Sunda</span>
+                    </div>
+                    <div class="lang-option" data-lang="other">
+                      <i class="fas fa-plus-circle"></i>
+                      <span>Bahasa Lainnya</span>
+                    </div>
+                  </div>
+                </div>
+
+                <button id="logoutBtn" class="logout-btn">
+                  <i class="fas fa-sign-out-alt"></i>
+                  <span id="logoutText">Keluar</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Search Bar -->
+      <div class="search-section">
+        <div class="container">
+          <div class="search-container">
+            <i class="fas fa-search"></i>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Cari fitur, bantuan, atau informasi..."
+            />
+            <button class="search-btn" id="searchButton">Cari</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <main class="container">
+        <!-- Status Bar -->
+        <div class="status-bar">
+          <div class="status-info">
+            <div class="status-item">
+              <i class="fas fa-clock"></i>
+              <div>
+                <span class="status-label" id="lastLogin">Login terakhir</span>
+                <span class="status-value" id="loginTime">Hari ini, 10:30</span>
+              </div>
+            </div>
+            <div class="status-item">
+              <i class="fas fa-language"></i>
+              <div>
+                <span class="status-label" id="currentLanguageLabel"
+                  >Bahasa aktif</span
+                >
+                <span class="status-value" id="selectedLanguage"
+                  >Indonesia</span
+                >
+              </div>
+            </div>
+            <div class="status-item">
+              <i class="fas fa-bell"></i>
+              <div>
+                <span class="status-label" id="notificationLabel"
+                  >Notifikasi</span
+                >
+                <span class="status-value" id="notificationCount">3 baru</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard Title -->
+        <div class="dashboard-header">
+          <h2 id="dashboardTitle">Dashboard DeTech</h2>
+          <p id="dashboardSubtitle">
+            Kelola dan pantau semua aktivitas kredit mikro UMKM Anda di satu
+            tempat
+          </p>
+        </div>
+
+        <!-- Quick Stats (Disederhanakan - Hanya fitur utama) -->
+        <div class="quick-stats">
+          <!-- FITUR UTAMA: Analisis AI -->
+          <div class="stat-card">
+            <div
+              class="stat-icon"
+              style="
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              "
+            >
+              <i class="fas fa-robot"></i>
+            </div>
+            <div class="stat-content">
+              <h3 id="stat1Title">Total Kredit Tersedia</h3>
+              <p class="stat-value">Rp 25.000.000</p>
+              <p class="stat-change positive">+12% dari bulan lalu</p>
+            </div>
+          </div>
+
+          <!-- FITUR UTAMA: Asisten Suara -->
+          <div class="stat-card">
+            <div
+              class="stat-icon"
+              style="
+                background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+              "
+            >
+              <i class="fas fa-microphone-alt"></i>
+            </div>
+            <div class="stat-content">
+              <h3 id="stat2Title">Pengajuan Aktif</h3>
+              <p class="stat-value">8 Permohonan</p>
+              <p class="stat-change positive">3 menunggu review</p>
+            </div>
+          </div>
+
+          <!-- FITUR UTAMA: Edukasi -->
+          <div class="stat-card">
+            <div
+              class="stat-icon"
+              style="
+                background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+              "
+            >
+              <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="stat-content">
+              <h3 id="stat3Title">Kredit Disetujui</h3>
+              <p class="stat-value">Rp 185.000.000</p>
+              <p class="stat-change positive">15 UMKM terbantu</p>
+            </div>
+          </div>
+
+          <!-- FITUR UTAMA: Konsultasi -->
+          <div class="stat-card">
+            <div
+              class="stat-icon"
+              style="
+                background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+              "
+            >
+              <i class="fas fa-comments"></i>
+            </div>
+            <div class="stat-content">
+              <h3 id="stat4Title">Rating Sistem</h3>
+              <p class="stat-value">4.8/5.0</p>
+              <p class="stat-change">96% kepuasan pengguna</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Dashboard Cards -->
+        <div class="dashboard-grid">
+          <!-- Analisis Kredit AI Card -->
+          <div class="dashboard-card feature-card">
+            <div class="card-header">
+              <div class="card-icon">
+                <i class="fas fa-robot"></i>
+              </div>
+              <h3 id="card1Title">Analisis Kredit AI</h3>
+              <span class="card-badge active">Siap Digunakan</span>
+            </div>
+
+            <p id="card1Text">
+              Analisa kecocokan kredit mikro untuk UMKM Anda dengan teknologi AI
+              canggih yang dapat memprediksi kelayakan dengan akurasi 95%.
+            </p>
+
+            <div class="card-features">
+              <div class="feature">
+                <i class="fas fa-check-circle"></i>
+                <span id="feature1Text">Analisis profil bisnis otomatis</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-check-circle"></i>
+                <span id="feature2Text">Prediksi kelayakan real time</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-check-circle"></i>
+                <span id="feature3Text">Rekomendasi plafon kredit</span>
+              </div>
+            </div>
+
+            <div class="card-actions">
+              <button
+                class="btn-primary card-btn"
+                id="card1Btn"
+                onclick="startCreditAnalysis()"
+              >
+                <i class="fas fa-play-circle"></i>
+                <span id="card1BtnText">Mulai Analisis</span>
+              </button>
+              <button class="btn-secondary" onclick="showDemo('analysis')">
+                <i class="fas fa-eye"></i>
+                <span id="demoBtnText">Lihat Demo</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Pelacakan Integritas Card -->
+          <div class="dashboard-card feature-card">
+            <div class="card-header">
+              <div class="card-icon">
+                <i class="fas fa-chart-line"></i>
+              </div>
+              <h3 id="card2Title">Pelacakan Integritas</h3>
+              <span class="card-badge active">Live Tracking</span>
+            </div>
+
+            <p id="card2Text">
+              Awasi integritas dan riwayat kredit mikro Anda dengan sistem yang
+              transparan dan real time monitoring.
+            </p>
+
+            <div class="progress-section">
+              <div class="progress-item">
+                <span class="progress-label" id="progress1Label"
+                  >Kredit aktif</span
+                >
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 75%"></div>
+                </div>
+                <span class="progress-value">75%</span>
+              </div>
+              <div class="progress-item">
+                <span class="progress-label" id="progress2Label"
+                  >Pembayaran lancar</span
+                >
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 92%"></div>
+                </div>
+                <span class="progress-value">92%</span>
+              </div>
+            </div>
+
+            <div class="card-actions">
+              <button
+                class="btn-primary card-btn"
+                id="card2Btn"
+                onclick="viewCreditHistory()"
+              >
+                <i class="fas fa-history"></i>
+                <span id="card2BtnText">Lihat Riwayat</span>
+              </button>
+              <button class="btn-secondary" onclick="downloadReport()">
+                <i class="fas fa-download"></i>
+                <span id="reportBtnText">Unduh Laporan</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Asisten Suara Card -->
+          <!-- Asisten Suara AI Card - DIUBAH -->
+          <div class="dashboard-card feature-card">
+            <div class="card-header">
+              <div class="card-icon">
+                <i class="fas fa-microphone-alt"></i>
+              </div>
+              <h3 id="card3Title">Asisten Suara AI</h3>
+              <span class="card-badge beta">Beta</span>
+            </div>
+
+            <p id="card3Text">
+              Gunakan asisten suara untuk navigasi dan informasi dalam bahasa
+              daerah Indonesia dengan teknologi speech recognition.
+            </p>
+
+            <div class="voice-controls">
+              <div class="language-badges">
+                <span class="lang-badge" id="langBadge1">Indonesia</span>
+                <span class="lang-badge" id="langBadge2">Jawa</span>
+                <span class="lang-badge" id="langBadge3">Sunda</span>
+                <span class="lang-badge" id="langBadge4">+5 lainnya</span>
+              </div>
+
+              <div class="voice-input-section">
+                <div class="voice-input">
+                  <input
+                    type="text"
+                    id="voiceCommand"
+                    placeholder="Katakan perintah atau pertanyaan..."
+                    disabled
+                  />
+                  <button class="voice-toggle" id="voiceToggle">
+                    <i class="fas fa-microphone"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-actions">
+              <button
+                class="btn-primary card-btn"
+                id="card3Btn"
+                onclick="activateVoiceAssistant()"
+              >
+                <i class="fas fa-microphone"></i>
+                <span id="card3BtnText">Aktifkan Suara</span>
+              </button>
+              <button class="btn-secondary" onclick="showVoiceCommands()">
+                <i class="fas fa-list"></i>
+                <span id="voiceCommandsBtnText">Perintah Suara</span>
+              </button>
+            </div>
+          </div>
+          <!-- Status Persetujuan Kredit Card -->
+          <div class="dashboard-card">
+            <div class="card-header">
+              <div class="card-icon">
+                <i class="fas fa-check-circle"></i>
+              </div>
+              <h3 id="card4Title">Status Persetujuan</h3>
+              <span class="card-badge pending" id="approvalStatusBadge"
+                >Menunggu</span
+              >
+            </div>
+
+            <p id="card4Text">
+              Pantau status persetujuan kredit Anda dan cara pencairan dana.
+            </p>
+
+            <div class="approval-timeline">
+              <div class="timeline-step active">
+                <div class="step-dot"></div>
+                <div class="step-content">
+                  <h4 id="step1TitleTimeline">Pengajuan</h4>
+                  <p id="step1TextTimeline">Terkirim ke sistem</p>
+                </div>
+              </div>
+              <div class="timeline-step">
+                <div class="step-dot"></div>
+                <div class="step-content">
+                  <h4 id="step2TitleTimeline">Review AI</h4>
+                  <p id="step2TextTimeline">Analisis oleh sistem AI</p>
+                </div>
+              </div>
+              <div class="timeline-step">
+                <div class="step-dot"></div>
+                <div class="step-content">
+                  <h4 id="step3TitleTimeline">Operator</h4>
+                  <p id="step3TextTimeline">Verifikasi oleh operator</p>
+                </div>
+              </div>
+              <div class="timeline-step">
+                <div class="step-dot"></div>
+                <div class="step-content">
+                  <h4 id="step4TitleTimeline">Pencairan</h4>
+                  <p id="step4TextTimeline">Dana ditransfer</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-actions">
+              <button
+                class="btn-primary card-btn"
+                onclick="checkApprovalStatus()"
+              >
+                <i class="fas fa-sync-alt"></i>
+                <span id="checkStatusBtnText">Cek Status</span>
+              </button>
+              <button class="btn-secondary" onclick="viewApprovalDetails()">
+                <i class="fas fa-info-circle"></i>
+                <span id="detailsBtnText">Detail</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pencairan Dana Section -->
+        <div class="fund-disbursement">
+          <div class="section-header">
+            <h3 id="disbursementTitle">Pencairan Dana Kredit</h3>
+            <p id="disbursementSubtitle">
+              Cara mendapatkan dana kredit yang telah disetujui
+            </p>
+          </div>
+
+          <div class="disbursement-methods">
+            <div class="method-card" onclick="selectDisbursementMethod('bank')">
+              <div class="method-icon">
+                <i class="fas fa-university"></i>
+              </div>
+              <h4 id="method1Title">Transfer Bank</h4>
+              <p id="method1Desc">Dana langsung ke rekening bank Anda</p>
+              <div class="method-info">
+                <span class="info-item"
+                  ><i class="fas fa-clock"></i>
+                  <span id="method1Time">1-2 hari kerja</span></span
+                >
+                <span class="info-item"
+                  ><i class="fas fa-money-bill-wave"></i>
+                  <span id="method1Fee">Gratis biaya</span></span
+                >
+              </div>
+            </div>
+
+            <div
+              class="method-card"
+              onclick="selectDisbursementMethod('ewallet')"
+            >
+              <div class="method-icon">
+                <i class="fas fa-mobile-alt"></i>
+              </div>
+              <h4 id="method2Title">E-Wallet</h4>
+              <p id="method2Desc">Instan ke GoPay, OVO, Dana, dll</p>
+              <div class="method-info">
+                <span class="info-item"
+                  ><i class="fas fa-clock"></i>
+                  <span id="method2Time">Instan</span></span
+                >
+                <span class="info-item"
+                  ><i class="fas fa-money-bill-wave"></i>
+                  <span id="method2Fee">Rp 2.500</span></span
+                >
+              </div>
+            </div>
+
+            <div class="method-card" onclick="selectDisbursementMethod('cash')">
+              <div class="method-icon">
+                <i class="fas fa-hand-holding-usd"></i>
+              </div>
+              <h4 id="method3Title">Tunai di Lokasi</h4>
+              <p id="method3Desc">Ambil tunai di kantor kami</p>
+              <div class="method-info">
+                <span class="info-item"
+                  ><i class="fas fa-clock"></i>
+                  <span id="method3Time">1 hari kerja</span></span
+                >
+                <span class="info-item"
+                  ><i class="fas fa-money-bill-wave"></i>
+                  <span id="method3Fee">Rp 5.000</span></span
+                >
+              </div>
+            </div>
+
+            <div class="method-card" onclick="selectDisbursementMethod('pos')">
+              <div class="method-icon">
+                <i class="fas fa-truck"></i>
+              </div>
+              <h4 id="method4Title">Kirim via POS</h4>
+              <p id="method4Desc">Dikirim ke alamat Anda</p>
+              <div class="method-info">
+                <span class="info-item"
+                  ><i class="fas fa-clock"></i>
+                  <span id="method4Time">2-3 hari</span></span
+                >
+                <span class="info-item"
+                  ><i class="fas fa-money-bill-wave"></i>
+                  <span id="method4Fee">Rp 10.000</span></span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="disbursement-form hidden" id="disbursementForm">
+            <h4 id="formTitle">Form Pencairan Dana</h4>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="disbursementAmount" id="amountLabelForm"
+                  >Jumlah Dana</label
+                >
+                <input
+                  type="text"
+                  id="disbursementAmount"
+                  value="Rp 15.000.000"
+                  readonly
+                />
+              </div>
+              <div class="form-group">
+                <label for="selectedMethod" id="methodLabelForm"
+                  >Metode Pencairan</label
+                >
+                <input type="text" id="selectedMethod" readonly />
+              </div>
+            </div>
+
+            <div class="form-group" id="bankDetailsSection">
+              <label for="bankAccount" id="bankAccountLabel"
+                >Nomor Rekening</label
+              >
+              <input
+                type="text"
+                id="bankAccount"
+                placeholder="Contoh: 1234567890"
+              />
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="bankName" id="bankNameLabel">Nama Bank</label>
+                  <select id="bankName">
+                    <option value="bca">BCA</option>
+                    <option value="bni">BNI</option>
+                    <option value="bri">BRI</option>
+                    <option value="mandiri">Mandiri</option>
+                    <option value="other">Bank Lainnya</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="accountName" id="accountNameLabel"
+                    >Nama Pemilik Rekening</label
+                  >
+                  <input
+                    type="text"
+                    id="accountName"
+                    placeholder="Nama sesuai rekening"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group hidden" id="ewalletDetailsSection">
+              <label for="ewalletNumber" id="ewalletNumberLabel"
+                >Nomor E-Wallet</label
+              >
+              <input
+                type="text"
+                id="ewalletNumber"
+                placeholder="Contoh: 081234567890"
+              />
+              <div class="form-group">
+                <label for="ewalletType" id="ewalletTypeLabel"
+                  >Jenis E-Wallet</label
+                >
+                <select id="ewalletType">
+                  <option value="gopay">GoPay</option>
+                  <option value="ovo">OVO</option>
+                  <option value="dana">DANA</option>
+                  <option value="shopeepay">ShopeePay</option>
+                  <option value="linkaja">LinkAja</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group hidden" id="addressDetailsSection">
+              <label for="deliveryAddress" id="addressLabel"
+                >Alamat Pengiriman</label
+              >
+              <textarea
+                id="deliveryAddress"
+                rows="3"
+                placeholder="Masukkan alamat lengkap untuk pengiriman"
+              ></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="disbursementNotes" id="notesLabel"
+                >Catatan (Opsional)</label
+              >
+              <textarea
+                id="disbursementNotes"
+                rows="2"
+                placeholder="Tambahkan catatan jika diperlukan"
+              ></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button
+                class="btn-secondary"
+                onclick="cancelDisbursement()"
+                id="cancelDisbursementBtn"
+              >
+                Batal
+              </button>
+              <button
+                class="btn-primary"
+                onclick="submitDisbursementRequest()"
+                id="submitDisbursementBtn"
+              >
+                <i class="fas fa-paper-plane"></i>
+                <span id="submitDisbursementText">Ajukan Pencairan</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fitur Tambahan yang Dikembangkan -->
+        <div class="additional-features expanded">
+          <div class="section-header">
+            <h3 id="additionalFeaturesTitle">Fitur Tambahan Lengkap</h3>
+            <p id="additionalFeaturesDesc">
+              Akses semua fitur pendukung untuk pengelolaan kredit mikro yang
+              optimal
+            </p>
+          </div>
+
+          <div class="features-grid">
+            <div class="feature-item" onclick="openFeatureModal('calculator')">
+              <div class="feature-icon">
+                <i class="fas fa-calculator"></i>
+              </div>
+              <h4 id="featureItem1Title">Kalkulator Kredit</h4>
+              <p id="featureItem1Text">Hitung cicilan dan bunga dengan mudah</p>
+              <div class="feature-preview">
+                <div class="mini-calc">
+                  <span id="miniCalcText">Cicilan: Rp 500.000/bln</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="feature-item" onclick="openEducationCenter()">
+              <div class="feature-icon">
+                <i class="fas fa-graduation-cap"></i>
+              </div>
+              <h4 id="featureItem2Title">Edukasi Finansial</h4>
+              <p id="featureItem2Text">Materi edukasi keuangan untuk UMKM</p>
+              <div class="feature-preview">
+                <div class="progress-ring">
+                  <div class="ring-circle" style="--progress: 65">
+                    <span>65%</span>
+                  </div>
+                  <span id="progressTextLabel">Materi terselesaikan</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="feature-item" onclick="openConsultation()">
+              <div class="feature-icon">
+                <i class="fas fa-comments"></i>
+              </div>
+              <h4 id="featureItem3Title">Konsultasi Online</h4>
+              <p id="featureItem3Text">Konsultasi dengan ahli keuangan</p>
+              <div class="feature-preview">
+                <div class="consultant-status">
+                  <div class="status-dot online"></div>
+                  <span id="consultantStatus">3 konsultan online</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="feature-item" onclick="openFeatureModal('security')">
+              <div class="feature-icon">
+                <i class="fas fa-shield-alt"></i>
+              </div>
+              <h4 id="featureItem4Title">Perlindungan Data</h4>
+              <p id="featureItem4Text">Keamanan data dengan enkripsi AES-256</p>
+              <div class="feature-preview">
+                <div class="security-badge">
+                  <i class="fas fa-lock"></i>
+                  <span id="securityStatus">Aman 100%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Footer -->
+      <footer class="main-footer">
+        <div class="container">
+          <div class="footer-content">
+            <div class="footer-section">
+              <div class="footer-logo">
+                <i class="fas fa-seedling"></i>
+                <h3>KrediAI Nusantara</h3>
+              </div>
+              <p id="footerTagline">
+                Membangun UMKM Pedesaan dengan Teknologi Cerdas
+              </p>
+              <div class="social-links">
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+              </div>
+            </div>
+
+            <div class="footer-section">
+              <h4 id="footerLinksTitle">Tautan Cepat</h4>
+              <ul>
+                <li><a href="#" id="footerLink1">Tentang Kami</a></li>
+                <li><a href="#" id="footerLink2">Kebijakan Privasi</a></li>
+                <li><a href="#" id="footerLink3">Syarat & Ketentuan</a></li>
+                <li><a href="#" id="footerLink4">Bantuan & FAQ</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-section">
+              <h4 id="footerContactTitle">Kontak</h4>
+              <div class="contact-info">
+                <p><i class="fas fa-envelope"></i> support@DeTech.id</p>
+                <p><i class="fas fa-phone"></i> (021) 1234-5678</p>
+                <p><i class="fas fa-map-marker-alt"></i> Surabaya, Indonesia</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer-bottom">
+            <p id="copyrightText">
+              &copy; 2026 DeTech. Semua hak dilindungi. | Versi 2.1.0
+            </p>
+            <div class="footer-badges">
+              <span class="tech-badge"
+                ><i class="fas fa-shield-alt"></i>
+                <span id="badge1Text">Aman & Terenkripsi</span></span
+              >
+              <span class="tech-badge"
+                ><i class="fas fa-bolt"></i>
+                <span id="badge2Text">99.9% Uptime</span></span
+              >
+              <span class="tech-badge"
+                ><i class="fas fa-language"></i>
+                <span id="badge3Text">15+ Bahasa</span></span
+              >
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Analysis Modal -->
+    <div id="analysisModal" class="modal-overlay hidden">
+      <div class="analysis-modal">
+        <div class="modal-header">
+          <h3 id="analysisModalTitle">Analisis Kredit AI</h3>
+          <button class="close-modal" onclick="closeAnalysisModal()">
+            &times;
+          </button>
+        </div>
+
+        <div class="modal-content">
+          <div class="analysis-steps">
+            <div class="step active">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h4 id="step1Title">Data UMKM</h4>
+                <p id="step1Text">Mengumpulkan informasi bisnis Anda</p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h4 id="step2Title">Analisis AI</h4>
+                <p id="step2Text">
+                  Menganalisis dengan algoritma machine learning
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h4 id="step3Title">Hasil</h4>
+                <p id="step3Text">Rekomendasi kredit dan plafon</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="analysis-form">
+            <div class="form-section">
+              <h4 id="formSectionTitle">Informasi UMKM</h4>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="businessName" id="businessNameLabel"
+                    >Nama Usaha</label
+                  >
+                  <input
+                    type="text"
+                    id="businessName"
+                    placeholder="Contoh: Toko Berkah Makmur"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="businessType" id="businessTypeLabel"
+                    >Jenis Usaha</label
+                  >
+                  <select id="businessType">
+                    <option value="retail" id="businessType1">
+                      Retail/Pedagang
+                    </option>
+                    <option value="food" id="businessType2">
+                      Makanan & Minuman
+                    </option>
+                    <option value="craft" id="businessType3">
+                      Kerajinan Tangan
+                    </option>
+                    <option value="service" id="businessType4">Jasa</option>
+                    <option value="agriculture" id="businessType5">
+                      Pertanian
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="businessAge" id="businessAgeLabel"
+                    >Usia Usaha (tahun)</label
+                  >
+                  <input
+                    type="number"
+                    id="businessAge"
+                    min="0"
+                    max="50"
+                    value="2"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="monthlyRevenue" id="revenueLabel"
+                    >Pendapatan Bulanan (Rp)</label
+                  >
+                  <input
+                    type="number"
+                    id="monthlyRevenue"
+                    placeholder="Contoh: 5000000"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="businessDescription" id="descriptionLabel"
+                  >Deskripsi Usaha</label
+                >
+                <textarea
+                  id="businessDescription"
+                  rows="3"
+                  placeholder="Jelaskan usaha Anda secara singkat..."
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="analysis-progress">
+              <div class="progress-bar-large">
+                <div
+                  class="progress-fill-large"
+                  id="analysisProgress"
+                  style="width: 0%"
+                ></div>
+              </div>
+              <div class="progress-text">
+                <span id="progressText">Memulai analisis...</span>
+                <span id="progressPercent">0%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            class="btn-secondary"
+            onclick="closeAnalysisModal()"
+            id="cancelBtn"
+          >
+            Batal
+          </button>
+          <button
+            class="btn-primary"
+            onclick="runAnalysis()"
+            id="startAnalysisBtn"
+          >
+            <i class="fas fa-play"></i>
+            <span id="startAnalysisBtnText">Mulai Analisis AI</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Modal -->
+    <div id="resultsModal" class="modal-overlay hidden">
+      <div class="results-modal">
+        <div class="modal-header">
+          <h3 id="resultsModalTitle">Hasil Analisis KrediAI Nusantara</h3>
+          <button class="close-modal" onclick="closeResultsModal()">
+            &times;
+          </button>
+        </div>
+
+        <div class="modal-content">
+          <div class="results-summary">
+            <div class="result-card approved">
+              <div class="result-icon">
+                <i class="fas fa-check-circle"></i>
+              </div>
+              <div class="result-content">
+                <h4 id="resultStatus">DISETUJUI</h4>
+                <p id="resultMessage">
+                  Usaha Anda layak mendapatkan kredit mikro
+                </p>
+              </div>
+            </div>
+
+            <div class="results-details">
+              <div class="detail-item">
+                <span class="detail-label" id="detail1Label"
+                  >Plafon Kredit Disarankan</span
+                >
+                <span class="detail-value" id="creditLimit">Rp 15.000.000</span>
+              </div>
+
+              <div class="detail-item">
+                <span class="detail-label" id="detail2Label"
+                  >Bunga per Tahun</span
+                >
+                <span class="detail-value" id="interestRate">9.5%</span>
+              </div>
+
+              <div class="detail-item">
+                <span class="detail-label" id="detail3Label"
+                  >Tenor Maksimal</span
+                >
+                <span class="detail-value" id="loanTenor">24 Bulan</span>
+              </div>
+
+              <div class="detail-item">
+                <span class="detail-label" id="detail4Label"
+                  >Cicilan per Bulan</span
+                >
+                <span class="detail-value" id="monthlyPayment">Rp 687.500</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="ai-insights">
+            <h4 id="insightsTitle">Wawasan AI:</h4>
+            <div class="insight-item">
+              <i class="fas fa-lightbulb"></i>
+              <p id="insight1Text">
+                Usaha Anda memiliki potensi pertumbuhan 35% dalam 12 bulan ke
+                depan berdasarkan data sejenis.
+              </p>
+            </div>
+            <div class="insight-item">
+              <i class="fas fa-chart-line"></i>
+              <p id="insight2Text">
+                Rekomendasi: Alokasikan 60% kredit untuk inventory dan 40% untuk
+                marketing.
+              </p>
+            </div>
+          </div>
+
+          <div class="approval-process">
+            <h4 id="processTitle">Proses Persetujuan:</h4>
+            <p id="processDescription">
+              Kredit Anda perlu diverifikasi oleh operator kami. Proses ini
+              memakan waktu 1-2 hari kerja.
+            </p>
+            <div class="operator-notes">
+              <i class="fas fa-user-tie"></i>
+              <div>
+                <h5 id="operatorNotesTitle">Catatan Operator:</h5>
+                <p id="operatorNotesText">
+                  Dokumen akan diperiksa oleh tim verifikasi kami. Pastikan data
+                  yang dimasukkan valid.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            class="btn-secondary"
+            onclick="closeResultsModal()"
+            id="closeResultsBtn"
+          >
+            Tutup
+          </button>
+          <button
+            class="btn-primary"
+            onclick="applyForCredit()"
+            id="applyCreditBtn"
+          >
+            <i class="fas fa-paper-plane"></i>
+            <span id="applyCreditBtnText">Ajukan Kredit Ini</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Calculator Modal -->
+    <div id="calculatorModal" class="modal-overlay hidden">
+      <div class="feature-modal">
+        <div class="modal-header">
+          <h3 id="calculatorModalTitle">Kalkulator Kredit</h3>
+          <button class="close-modal" onclick="closeFeatureModal('calculator')">
+            &times;
+          </button>
+        </div>
+
+        <div class="modal-content">
+          <div class="calculator-container">
+            <div class="calculator-inputs">
+              <div class="form-group">
+                <label for="calcAmount" id="calcAmountLabel"
+                  >Jumlah Pinjaman (Rp)</label
+                >
+                <input
+                  type="number"
+                  id="calcAmount"
+                  value="10000000"
+                  min="1000000"
+                  max="100000000"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="calcTenor" id="calcTenorLabel">Tenor (bulan)</label>
+                <select id="calcTenor">
+                  <option value="6">6 bulan</option>
+                  <option value="12" selected>12 bulan</option>
+                  <option value="18">18 bulan</option>
+                  <option value="24">24 bulan</option>
+                  <option value="36">36 bulan</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="calcInterest" id="calcInterestLabel"
+                  >Bunga per Tahun (%)</label
+                >
+                <input
+                  type="number"
+                  id="calcInterest"
+                  value="9.5"
+                  min="5"
+                  max="20"
+                  step="0.1"
+                />
+              </div>
+
+              <button
+                class="btn-primary"
+                onclick="calculateLoan()"
+                id="calculateBtn"
+              >
+                <i class="fas fa-calculator"></i>
+                <span>Hitung Cicilan</span>
+              </button>
+            </div>
+
+            <div class="calculator-results">
+              <div class="result-box">
+                <h4 id="monthlyResultLabel">Cicilan per Bulan</h4>
+                <p class="result-value" id="monthlyResult">Rp 0</p>
+              </div>
+
+              <div class="result-box">
+                <h4 id="totalResultLabel">Total Pembayaran</h4>
+                <p class="result-value" id="totalResult">Rp 0</p>
+              </div>
+
+              <div class="result-box">
+                <h4 id="interestResultLabel">Total Bunga</h4>
+                <p class="result-value" id="interestResult">Rp 0</p>
+              </div>
+            </div>
+
+            <div class="amortization-table" id="amortizationTable">
+              <!-- Table will be generated here -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Education Center Modal -->
+    <div id="educationModal" class="modal-overlay hidden">
+      <div class="education-modal">
+        <div class="modal-header">
+          <h3 id="educationModalTitle">Pusat Edukasi Finansial</h3>
+          <button class="close-modal" onclick="closeEducationModal()">
+            &times;
+          </button>
+        </div>
+
+        <div class="modal-content">
+          <div class="education-categories">
+            <div class="category-tabs">
+              <button
+                class="category-tab active"
+                onclick="showCategory('basic')"
+                id="tabBasic"
+              >
+                Dasar Keuangan
+              </button>
+              <button
+                class="category-tab"
+                onclick="showCategory('credit')"
+                id="tabCredit"
+              >
+                Manajemen Kredit
+              </button>
+              <button
+                class="category-tab"
+                onclick="showCategory('investment')"
+                id="tabInvestment"
+              >
+                Investasi UMKM
+              </button>
+              <button
+                class="category-tab"
+                onclick="showCategory('tax')"
+                id="tabTax"
+              >
+                Pajak & Legal
+              </button>
+            </div>
+
+            <div class="category-content active" id="categoryBasic">
+              <div class="lesson-list">
+                <div
+                  class="lesson-item completed"
+                  onclick="startLesson('basic1')"
+                >
+                  <div class="lesson-status">
+                    <i class="fas fa-check-circle"></i>
+                  </div>
+                  <div class="lesson-content">
+                    <h4 id="lesson1Title">Pengelolaan Arus Kas</h4>
+                    <p id="lesson1Desc">
+                      Belajar mengatur pemasukan dan pengeluaran usaha
+                    </p>
+                    <div class="lesson-meta">
+                      <span
+                        ><i class="fas fa-clock"></i>
+                        <span id="lesson1Time">15 menit</span></span
+                      >
+                      <span
+                        ><i class="fas fa-chart-bar"></i>
+                        <span id="lesson1Progress">100%</span></span
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="lesson-item in-progress"
+                  onclick="startLesson('basic2')"
+                >
+                  <div class="lesson-status">
+                    <div class="progress-circle" style="--progress: 65">
+                      65%
+                    </div>
+                  </div>
+                  <div class="lesson-content">
+                    <h4 id="lesson2Title">Pembukuan Sederhana</h4>
+                    <p id="lesson2Desc">
+                      Teknik pencatatan keuangan untuk UMKM
+                    </p>
+                    <div class="lesson-meta">
+                      <span
+                        ><i class="fas fa-clock"></i>
+                        <span id="lesson2Time">20 menit</span></span
+                      >
+                      <span
+                        ><i class="fas fa-chart-bar"></i>
+                        <span id="lesson2Progress">65%</span></span
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <div class="lesson-item" onclick="startLesson('basic3')">
+                  <div class="lesson-status">
+                    <i class="far fa-circle"></i>
+                  </div>
+                  <div class="lesson-content">
+                    <h4 id="lesson3Title">Analisis Break Even Point</h4>
+                    <p id="lesson3Desc">Menghitung titik impas usaha Anda</p>
+                    <div class="lesson-meta">
+                      <span
+                        ><i class="fas fa-clock"></i>
+                        <span id="lesson3Time">25 menit</span></span
+                      >
+                      <span
+                        ><i class="fas fa-chart-bar"></i>
+                        <span id="lesson3Progress">0%</span></span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="category-content" id="categoryCredit">
+              <div class="lesson-list">
+                <div
+                  class="lesson-item completed"
+                  onclick="startLesson('credit1')"
+                >
+                  <div class="lesson-status">
+                    <i class="fas fa-check-circle"></i>
+                  </div>
+                  <div class="lesson-content">
+                    <h4 id="lesson4Title">Memahami Bunga & Cicilan</h4>
+                    <p id="lesson4Desc">
+                      Jenis-jenis bunga dan cara menghitung cicilan
+                    </p>
+                    <div class="lesson-meta">
+                      <span
+                        ><i class="fas fa-clock"></i>
+                        <span id="lesson4Time">18 menit</span></span
+                      >
+                      <span
+                        ><i class="fas fa-chart-bar"></i>
+                        <span id="lesson4Progress">100%</span></span
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <div class="lesson-item" onclick="startLesson('credit2')">
+                  <div class="lesson-status">
+                    <i class="far fa-circle"></i>
+                  </div>
+                  <div class="lesson-content">
+                    <h4 id="lesson5Title">Tips Mendapatkan Kredit</h4>
+                    <p id="lesson5Desc">
+                      Strategi meningkatkan kelayakan kredit
+                    </p>
+                    <div class="lesson-meta">
+                      <span
+                        ><i class="fas fa-clock"></i>
+                        <span id="lesson5Time">22 menit</span></span
+                      >
+                      <span
+                        ><i class="fas fa-chart-bar"></i>
+                        <span id="lesson5Progress">0%</span></span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="quiz-section">
+              <h4 id="quizTitle">Kuis Finansial</h4>
+              <p id="quizDesc">Uji pengetahuan Anda dengan kuis interaktif</p>
+              <button
+                class="btn-primary"
+                onclick="startQuiz()"
+                id="startQuizBtn"
+              >
+                <i class="fas fa-play"></i>
+                <span>Mulai Kuis</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Consultation Modal -->
+    <div id="consultationModal" class="modal-overlay hidden">
+      <div class="consultation-modal">
+        <div class="modal-header">
+          <h3 id="consultationModalTitle">Konsultasi Online</h3>
+          <button class="close-modal" onclick="closeConsultationModal()">
+            &times;
+          </button>
+        </div>
+
+        <div class="modal-content">
+          <div class="consultation-container">
+            <div class="consultation-info">
+              <div class="consultant-list">
+                <h4 id="consultantListTitle">Konsultan Tersedia</h4>
+                <div
+                  class="consultant-card active"
+                  onclick="selectConsultant(1)"
+                >
+                  <div class="consultant-avatar">
+                    <i class="fas fa-user-tie"></i>
+                  </div>
+                  <div class="consultant-details">
+                    <h5 id="consultant1Name">Budi Santoso, S.E.</h5>
+                    <p id="consultant1Specialty">Ahli Keuangan UMKM</p>
+                    <div class="consultant-status">
+                      <div class="status-dot online"></div>
+                      <span id="consultant1Status">Online</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="consultant-card" onclick="selectConsultant(2)">
+                  <div class="consultant-avatar">
+                    <i class="fas fa-user-tie"></i>
+                  </div>
+                  <div class="consultant-details">
+                    <h5 id="consultant2Name">Dr. Sari Wijaya, M.M.</h5>
+                    <p id="consultant2Specialty">Konsultan Bisnis</p>
+                    <div class="consultant-status">
+                      <div class="status-dot online"></div>
+                      <span id="consultant2Status">Online</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="consultant-card" onclick="selectConsultant(3)">
+                  <div class="consultant-avatar">
+                    <i class="fas fa-robot"></i>
+                  </div>
+                  <div class="consultant-details">
+                    <h5 id="consultant3Name">AI Assistant</h5>
+                    <p id="consultant3Specialty">Asisten AI 24/7</p>
+                    <div class="consultant-status">
+                      <div class="status-dot online"></div>
+                      <span id="consultant3Status">Online</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="consultation-topics">
+                <h4 id="topicsTitle">Topik Konsultasi</h4>
+                <div class="topic-tags">
+                  <span
+                    class="topic-tag"
+                    onclick="selectTopic('kredit')"
+                    id="topic1"
+                    >Pengajuan Kredit</span
+                  >
+                  <span
+                    class="topic-tag"
+                    onclick="selectTopic('pembukuan')"
+                    id="topic2"
+                    >Pembukuan</span
+                  >
+                  <span
+                    class="topic-tag"
+                    onclick="selectTopic('pajak')"
+                    id="topic3"
+                    >Perpajakan</span
+                  >
+                  <span
+                    class="topic-tag"
+                    onclick="selectTopic('investasi')"
+                    id="topic4"
+                    >Investasi</span
+                  >
+                  <span
+                    class="topic-tag"
+                    onclick="selectTopic('lainnya')"
+                    id="topic5"
+                    >Lainnya</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="chat-container">
+              <div class="chat-header">
+                <div class="current-consultant">
+                  <div class="consultant-avatar small">
+                    <i class="fas fa-robot"></i>
+                  </div>
+                  <div>
+                    <h5 id="currentConsultantName">AI Assistant</h5>
+                    <p id="currentConsultantStatus">Mengetik...</p>
+                  </div>
+                </div>
+                <div class="chat-actions">
+                  <button
+                    class="chat-action-btn"
+                    onclick="clearChat()"
+                    title="Bersihkan Chat"
+                  >
+                    <i class="fas fa-trash"></i>
+                  </button>
+                  <button
+                    class="chat-action-btn"
+                    onclick="downloadChat()"
+                    title="Unduh Chat"
+                  >
+                    <i class="fas fa-download"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="chat-messages" id="chatMessages">
+                <div class="message ai-message">
+                  <div class="message-avatar">
+                    <i class="fas fa-robot"></i>
+                  </div>
+                  <div class="message-content">
+                    <p id="welcomeMessage">
+                      Halo! Saya AI Assistant dari DeTech. Saya siap membantu
+                      Anda dengan pertanyaan tentang kredit mikro, keuangan
+                      UMKM, atau topik lainnya. Ada yang bisa saya bantu?
+                    </p>
+                    <span class="message-time">Baru saja</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="chat-input">
+                <input
+                  type="text"
+                  id="chatInput"
+                  placeholder="Ketik pesan Anda di sini..."
+                />
+                <button class="send-btn" onclick="sendMessage()" id="sendBtn">
+                  <i class="fas fa-paper-plane"></i>
+                </button>
+              </div>
+
+              <div class="quick-responses">
+                <button
+                  class="quick-response"
+                  onclick="quickResponse('kredit')"
+                  id="quick1"
+                >
+                  Cara pengajuan kredit
+                </button>
+                <button
+                  class="quick-response"
+                  onclick="quickResponse('bunga')"
+                  id="quick2"
+                >
+                  Perhitungan bunga
+                </button>
+                <button
+                  class="quick-response"
+                  onclick="quickResponse('dokumen')"
+                  id="quick3"
+                >
+                  Dokumen yang diperlukan
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- History Modal -->
+    <div id="historyModal" class="modal-overlay hidden">
+      <div class="history-modal">
+        <div class="modal-header">
+          <h3 id="historyModalTitle">Riwayat Kredit</h3>
+          <button class="close-modal" onclick="closeHistoryModal()">
+            &times;
+          </button>
+        </div>
+
+        <div class="modal-content">
+          <div class="history-filters">
+            <div class="filter-group">
+              <label for="historyFilter" id="filterLabel">Filter:</label>
+              <select id="historyFilter" onchange="filterHistory()">
+                <option value="all" id="filterAll">Semua</option>
+                <option value="active" id="filterActive">Aktif</option>
+                <option value="paid" id="filterPaid">Lunas</option>
+                <option value="overdue" id="filterOverdue">Terlambat</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="historyPeriod" id="periodLabel">Periode:</label>
+              <select id="historyPeriod" onchange="filterHistory()">
+                <option value="all" id="periodAll">Semua Waktu</option>
+                <option value="month" id="periodMonth">Bulan Ini</option>
+                <option value="quarter" id="periodQuarter">
+                  3 Bulan Terakhir
+                </option>
+                <option value="year" id="periodYear">Tahun Ini</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="history-table-container">
+            <table class="history-table" id="historyTable">
+              <thead>
+                <tr>
+                  <th id="thDate">Tanggal</th>
+                  <th id="thType">Jenis</th>
+                  <th id="thAmount">Jumlah</th>
+                  <th id="thStatus">Status</th>
+                  <th id="thAction">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="historyTableBody">
+                <!-- History data will be loaded here -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="history-summary">
+            <div class="summary-item">
+              <span class="summary-label" id="summaryTotalLabel"
+                >Total Kredit</span
+              >
+              <span class="summary-value" id="summaryTotal">Rp 0</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label" id="summaryActiveLabel"
+                >Kredit Aktif</span
+              >
+              <span class="summary-value" id="summaryActive">Rp 0</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label" id="summaryPaidLabel"
+                >Kredit Lunas</span
+              >
+              <span class="summary-value" id="summaryPaid">Rp 0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            class="btn-secondary"
+            onclick="closeHistoryModal()"
+            id="closeHistoryBtn"
+          >
+            Tutup
+          </button>
+          <button
+            class="btn-primary"
+            onclick="exportHistory()"
+            id="exportHistoryBtn"
+          >
+            <i class="fas fa-file-export"></i>
+            <span id="exportBtnText">Ekspor ke Excel</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demo Modal -->
+    <div id="demoModal" class="modal-overlay hidden">
+      <div class="demo-modal">
+        <div class="modal-header">
+          <h3 id="demoModalTitle">Demo Analisis DeTech</h3>
+          <button class="close-modal" onclick="closeDemoModal()">
+            &times;
+          </button>
+        </div>
+
+        <div class="modal-content">
+          <div class="demo-container">
+            <div class="demo-video-placeholder">
+              <i class="fas fa-play-circle"></i>
+              <p id="demoVideoText">Video demo akan ditampilkan di sini</p>
+            </div>
+
+            <div class="demo-steps">
+              <h4 id="demoStepsTitle">Langkah-langkah Demo:</h4>
+              <ol class="steps-list">
+                <li id="demoStep1">Input data UMKM</li>
+                <li id="demoStep2">Analisis otomatis oleh AI</li>
+                <li id="demoStep3">Hasil dan rekomendasi</li>
+                <li id="demoStep4">Pengajuan kredit</li>
+              </ol>
+            </div>
+
+            <div class="demo-features">
+              <h4 id="demoFeaturesTitle">Fitur yang Ditunjukkan:</h4>
+              <div class="features-list">
+                <div class="feature-demo">
+                  <i class="fas fa-robot"></i>
+                  <span id="demoFeature1">AI Prediction Engine</span>
+                </div>
+                <div class="feature-demo">
+                  <i class="fas fa-chart-bar"></i>
+                  <span id="demoFeature2">Visual Analytics</span>
+                </div>
+                <div class="feature-demo">
+                  <i class="fas fa-bolt"></i>
+                  <span id="demoFeature3">Real time Processing</span>
+                </div>
+                <div class="feature-demo">
+                  <i class="fas fa-shield-alt"></i>
+                  <span id="demoFeature4">Secure Data Handling</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            class="btn-primary"
+            onclick="startLiveDemo()"
+            id="startDemoBtn"
+          >
+            <i class="fas fa-play"></i>
+            <span id="startDemoBtnText">Mulai Demo Langsung</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Edukasi Finansial -->
+    <div id="educationModal" class="modal-overlay hidden">
+      <div class="education-modal">
+        <div class="modal-header">
+          <div class="education-header">
+            <h3 id="educationModalTitle">Pusat Edukasi Finansial</h3>
+            <div class="education-language">
+              <span id="currentEducationLang">Bahasa: Indonesia</span>
+            </div>
+          </div>
+          <button class="close-modal" onclick="closeEducationModal()">
+            &times;
+          </button>
+        </div>
+
+        <div class="modal-content">
+          <!-- Header Progress -->
+          <div class="education-progress">
+            <div class="progress-summary">
+              <i class="fas fa-graduation-cap"></i>
+              <div>
+                <h4 id="progressTitle">Progress Belajar Anda</h4>
+                <p id="progressText">0 dari 4 materi selesai</p>
+              </div>
+            </div>
+            <div class="progress-bar-large">
+              <div
+                class="progress-fill-large"
+                id="overallProgress"
+                style="width: 0%"
+              ></div>
+            </div>
+          </div>
+
+          <!-- Tabs Kategori -->
+          <div class="category-tabs">
+            <button
+              class="category-tab active"
+              onclick="switchCategory('basic')"
+              id="tabBasic"
+            >
+              <i class="fas fa-piggy-bank"></i>
+              <span id="tabBasicText">Dasar Keuangan</span>
+            </button>
+            <button
+              class="category-tab"
+              onclick="switchCategory('credit')"
+              id="tabCredit"
+            >
+              <i class="fas fa-hand-holding-usd"></i>
+              <span id="tabCreditText">Manajemen Kredit</span>
+            </button>
+            <button
+              class="category-tab"
+              onclick="switchCategory('investment')"
+              id="tabInvestment"
+            >
+              <i class="fas fa-chart-line"></i>
+              <span id="tabInvestmentText">Investasi UMKM</span>
+            </button>
+            <button
+              class="category-tab"
+              onclick="switchCategory('tax')"
+              id="tabTax"
+            >
+              <i class="fas fa-file-invoice-dollar"></i>
+              <span id="tabTaxText">Pajak & Legal</span>
+            </button>
+          </div>
+
+          <!-- Konten Kategori: Dasar Keuangan -->
+          <div class="category-content active" id="categoryBasic">
+            <div class="lesson-list">
+              <!-- Pelajaran 1: Pengelolaan Arus Kas -->
+              <div
+                class="lesson-item completed"
+                onclick="startLesson('cashflow')"
+              >
+                <div class="lesson-status">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="lesson-content">
+                  <h4 id="lesson1Title">Pengelolaan Arus Kas</h4>
+                  <p id="lesson1Desc">
+                    Belajar mengatur pemasukan dan pengeluaran usaha
+                  </p>
+                  <div class="lesson-meta">
+                    <span
+                      ><i class="fas fa-clock"></i>
+                      <span id="lesson1Time">15 menit</span></span
+                    >
+                    <span
+                      ><i class="fas fa-chart-bar"></i>
+                      <span id="lesson1Progress">100%</span></span
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <!-- Pelajaran 2: Pembukuan Sederhana -->
+              <div
+                class="lesson-item in-progress"
+                onclick="startLesson('bookkeeping')"
+              >
+                <div class="lesson-status">
+                  <div class="progress-circle" style="--progress: 65">65%</div>
+                </div>
+                <div class="lesson-content">
+                  <h4 id="lesson2Title">Pembukuan Sederhana</h4>
+                  <p id="lesson2Desc">Teknik pencatatan keuangan untuk UMKM</p>
+                  <div class="lesson-meta">
+                    <span
+                      ><i class="fas fa-clock"></i>
+                      <span id="lesson2Time">20 menit</span></span
+                    >
+                    <span
+                      ><i class="fas fa-chart-bar"></i>
+                      <span id="lesson2Progress">65%</span></span
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <!-- Pelajaran 3: Analisis Break Even Point -->
+              <div class="lesson-item" onclick="startLesson('breakeven')">
+                <div class="lesson-status">
+                  <i class="far fa-circle"></i>
+                </div>
+                <div class="lesson-content">
+                  <h4 id="lesson3Title">Analisis Break Even Point</h4>
+                  <p id="lesson3Desc">Menghitung titik impas usaha Anda</p>
+                  <div class="lesson-meta">
+                    <span
+                      ><i class="fas fa-clock"></i>
+                      <span id="lesson3Time">25 menit</span></span
+                    >
+                    <span
+                      ><i class="fas fa-chart-bar"></i>
+                      <span id="lesson3Progress">0%</span></span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Konten Kategori: Manajemen Kredit -->
+          <div class="category-content" id="categoryCredit">
+            <div class="lesson-list">
+              <!-- Pelajaran 4: Memahami Bunga & Cicilan -->
+              <div
+                class="lesson-item completed"
+                onclick="startLesson('interest')"
+              >
+                <div class="lesson-status">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="lesson-content">
+                  <h4 id="lesson4Title">Memahami Bunga & Cicilan</h4>
+                  <p id="lesson4Desc">
+                    Jenis-jenis bunga dan cara menghitung cicilan
+                  </p>
+                  <div class="lesson-meta">
+                    <span
+                      ><i class="fas fa-clock"></i>
+                      <span id="lesson4Time">18 menit</span></span
+                    >
+                    <span
+                      ><i class="fas fa-chart-bar"></i>
+                      <span id="lesson4Progress">100%</span></span
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <!-- Pelajaran 5: Tips Mendapatkan Kredit -->
+              <div class="lesson-item" onclick="startLesson('credit-tips')">
+                <div class="lesson-status">
+                  <i class="far fa-circle"></i>
+                </div>
+                <div class="lesson-content">
+                  <h4 id="lesson5Title">Tips Mendapatkan Kredit</h4>
+                  <p id="lesson5Desc">Strategi meningkatkan kelayakan kredit</p>
+                  <div class="lesson-meta">
+                    <span
+                      ><i class="fas fa-clock"></i>
+                      <span id="lesson5Time">22 menit</span></span
+                    >
+                    <span
+                      ><i class="fas fa-chart-bar"></i>
+                      <span id="lesson5Progress">0%</span></span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Konten Kategori: Investasi UMKM -->
+          <div class="category-content" id="categoryInvestment">
+            <div class="lesson-list">
+              <!-- Pelajaran 6: Investasi untuk UMKM -->
+              <div
+                class="lesson-item completed"
+                onclick="startLesson('investment-basics')"
+              >
+                <div class="lesson-status">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="lesson-content">
+                  <h4 id="lesson6Title">Investasi untuk UMKM</h4>
+                  <p id="lesson6Desc">
+                    Mengenal jenis investasi yang cocok untuk usaha kecil
+                  </p>
+                  <div class="lesson-meta">
+                    <span
+                      ><i class="fas fa-clock"></i>
+                      <span id="lesson6Time">25 menit</span></span
+                    >
+                    <span
+                      ><i class="fas fa-chart-bar"></i>
+                      <span id="lesson6Progress">100%</span></span
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <!-- Pelajaran 7: Reinvestasi Profit -->
+              <div class="lesson-item" onclick="startLesson('reinvestment')">
+                <div class="lesson-status">
+                  <i class="far fa-circle"></i>
+                </div>
+                <div class="lesson-content">
+                  <h4 id="lesson7Title">Strategi Reinvestasi Profit</h4>
+                  <p id="lesson7Desc">
+                    Cara menginvestasikan kembali keuntungan usaha
+                  </p>
+                  <div class="lesson-meta">
+                    <span
+                      ><i class="fas fa-clock"></i>
+                      <span id="lesson7Time">20 menit</span></span
+                    >
+                    <span
+                      ><i class="fas fa-chart-bar"></i>
+                      <span id="lesson7Progress">0%</span></span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Konten Kategori: Pajak & Legal -->
+          <div class="category-content" id="categoryTax">
+            <div class="lesson-list">
+              <!-- Pelajaran 8: Pajak UMKM -->
+              <div
+                class="lesson-item completed"
+                onclick="startLesson('tax-basics')"
+              >
+                <div class="lesson-status">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="lesson-content">
+                  <h4 id="lesson8Title">Pajak untuk UMKM</h4>
+                  <p id="lesson8Desc">
+                    Memahami kewajiban perpajakan usaha kecil
+                  </p>
+                  <div class="lesson-meta">
+                    <span
+                      ><i class="fas fa-clock"></i>
+                      <span id="lesson8Time">30 menit</span></span
+                    >
+                    <span
+                      ><i class="fas fa-chart-bar"></i>
+                      <span id="lesson8Progress">100%</span></span
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <!-- Pelajaran 9: Legalitas Usaha -->
+              <div class="lesson-item" onclick="startLesson('legal')">
+                <div class="lesson-status">
+                  <i class="far fa-circle"></i>
+                </div>
+                <div class="lesson-content">
+                  <h4 id="lesson9Title">Legalitas Usaha</h4>
+                  <p id="lesson9Desc">Dokumen dan perizinan yang diperlukan</p>
+                  <div class="lesson-meta">
+                    <span
+                      ><i class="fas fa-clock"></i>
+                      <span id="lesson9Time">25 menit</span></span
+                    >
+                    <span
+                      ><i class="fas fa-chart-bar"></i>
+                      <span id="lesson9Progress">0%</span></span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section Kuis -->
+          <div class="quiz-section">
+            <h4 id="quizTitle">Kuis Finansial</h4>
+            <p id="quizDesc">Uji pengetahuan Anda dengan kuis interaktif</p>
+            <button
+              class="btn-primary"
+              onclick="startGeneralQuiz()"
+              id="startQuizBtn"
+            >
+              <i class="fas fa-play"></i>
+              <span id="startQuizBtnText">Mulai Kuis</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Detail Pelajaran -->
+    <div id="lessonDetailModal" class="modal-overlay hidden">
+      <div class="lesson-detail-modal">
+        <div class="modal-header">
+          <h3 id="lessonDetailTitle">Detail Pelajaran</h3>
+          <button class="close-modal" onclick="closeLessonDetailModal()">
+            &times;
+          </button>
+        </div>
+
+        <div class="modal-content">
+          <div class="lesson-progress-bar">
+            <div class="progress-bar">
+              <div
+                class="progress-fill"
+                id="lessonProgressFill"
+                style="width: 0%"
+              ></div>
+            </div>
+            <div class="progress-text">
+              <span id="lessonProgressText">0% selesai</span>
+              <span id="lessonPageText">Halaman 1/3</span>
+            </div>
+          </div>
+
+          <!-- KONTEN PELAJARAN AKAN DIMUAT DI SINI -->
+          <div class="lesson-content-container" id="lessonContentContainer">
+            <div class="lesson-page">
+              <h4 id="lessonPageTitle">Judul Pelajaran</h4>
+              <div class="lesson-content-text" id="lessonContentText">
+                Konten pelajaran akan muncul di sini...
+              </div>
+
+              <div class="example-box" id="lessonExampleBox">
+                <h5><i class="fas fa-lightbulb"></i> Contoh Praktis</h5>
+                <p id="lessonExampleText">Contoh akan muncul di sini...</p>
+              </div>
+
+              <div class="tips-box" id="lessonTipsBox">
+                <h5><i class="fas fa-tips"></i> Tips Penting</h5>
+                <p id="lessonTipsText">Tips akan muncul di sini...</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tombol Navigasi -->
+          <div class="lesson-navigation">
+            <button
+              class="btn-secondary"
+              onclick="prevLessonPage()"
+              id="prevLessonBtn"
+            >
+              <i class="fas fa-chevron-left"></i>
+              <span id="prevLessonText">Sebelumnya</span>
+            </button>
+            <button
+              class="btn-primary"
+              onclick="nextLessonPage()"
+              id="nextLessonBtn"
+            >
+              <span id="nextLessonText">Berikutnya</span>
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <button
+              class="btn-success hidden"
+              onclick="completeLesson()"
+              id="completeLessonBtn"
+            >
+              <i class="fas fa-check"></i>
+              <span id="completeLessonText">Selesaikan Pelajaran</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Kuis -->
+    <div id="quizModal" class="modal-overlay hidden">
+      <div class="quiz-modal">
+        <div class="modal-header">
+          <div class="quiz-header-info">
+            <h3 id="quizModalTitle">Kuis Finansial</h3>
+            <div class="quiz-stats">
+              <span id="quizQuestionNumber">Pertanyaan 1/5</span>
+              <span id="quizScore">Skor: 0</span>
+            </div>
+          </div>
+          <button class="close-modal" onclick="closeQuizModal()">
+            &times;
+          </button>
+        </div>
+
+        <div class="modal-content">
+          <div class="quiz-progress-bar">
+            <div class="progress-bar">
+              <div
+                class="progress-fill"
+                id="quizProgressFill"
+                style="width: 0%"
+              ></div>
+            </div>
+          </div>
+
+          <div class="quiz-container">
+            <div class="quiz-question">
+              <h4 id="quizQuestionText">Memuat pertanyaan...</h4>
+            </div>
+
+            <div class="quiz-options" id="quizOptions">
+              <!-- Opsi jawaban akan dimuat di sini -->
+            </div>
+
+            <div class="quiz-feedback hidden" id="quizFeedback">
+              <div class="feedback-content" id="feedbackContent">
+                <!-- Feedback akan ditampilkan di sini -->
+              </div>
+              <button
+                class="btn-primary"
+                onclick="nextQuizQuestion()"
+                id="nextQuestionBtn"
+              >
+                <span id="nextQuestionText">Lanjut</span>
+                <i class="fas fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Advanced Voice Assistant Modal -->
+    <div id="advancedVoiceModal" class="modal-overlay hidden">
+      <div class="voice-assistant-modal">
+        <div class="modal-header">
+          <h3>Asisten Suara AI Canggih</h3>
+          <button class="close-modal" onclick="closeAdvancedVoiceModal()">
+            &times;
+          </button>
+        </div>
+
+        <div class="modal-content">
+          <div class="voice-status">
+            <div class="voice-visualizer">
+              <div class="voice-bar" id="voiceBar1"></div>
+              <div class="voice-bar" id="voiceBar2"></div>
+              <div class="voice-bar" id="voiceBar3"></div>
+              <div class="voice-bar" id="voiceBar4"></div>
+              <div class="voice-bar" id="voiceBar5"></div>
+            </div>
+            <div class="voice-indicator">
+              <div class="pulse-ring"></div>
+              <i class="fas fa-microphone"></i>
+            </div>
+            <p id="voiceStatusText">Tekan tombol untuk memulai</p>
+          </div>
+
+          <div class="voice-commands">
+            <h4>Perintah yang Tersedia:</h4>
+            <div class="command-grid">
+              <div class="command-card" onclick="voiceCommandHelp('analisis')">
+                <i class="fas fa-robot"></i>
+                <span>Mulai analisis kredit</span>
+              </div>
+              <div class="command-card" onclick="voiceCommandHelp('status')">
+                <i class="fas fa-chart-line"></i>
+                <span>Cek status kredit</span>
+              </div>
+              <div class="command-card" onclick="voiceCommandHelp('riwayat')">
+                <i class="fas fa-history"></i>
+                <span>Tampilkan riwayat</span>
+              </div>
+              <div
+                class="command-card"
+                onclick="voiceCommandHelp('kalkulator')"
+              >
+                <i class="fas fa-calculator"></i>
+                <span>Buka kalkulator</span>
+              </div>
+              <div class="command-card" onclick="voiceCommandHelp('edukasi')">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Pelajaran keuangan</span>
+              </div>
+              <div
+                class="command-card"
+                onclick="voiceCommandHelp('konsultasi')"
+              >
+                <i class="fas fa-comments"></i>
+                <span>Konsultasi AI</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="voice-transcript">
+            <h4>Transkrip:</h4>
+            <div class="transcript-box" id="transcriptBox">
+              <div class="user-transcript" id="userTranscript">
+                <i class="fas fa-user"></i>
+                <p id="userTranscriptText">-</p>
+              </div>
+              <div class="ai-transcript" id="aiTranscript">
+                <i class="fas fa-robot"></i>
+                <p id="aiTranscriptText">-</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            class="btn-secondary"
+            onclick="stopVoiceAssistant()"
+            id="stopVoiceBtn"
+          >
+            <i class="fas fa-stop"></i>
+            <span>Berhenti</span>
+          </button>
+          <button
+            class="btn-primary"
+            onclick="startVoiceAssistant()"
+            id="startVoiceBtn"
+          >
+            <i class="fas fa-microphone"></i>
+            <span>Mulai Bicara</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detail Dashboard Modal -->
+    <div id="dashboardDetailModal" class="modal-overlay hidden">
+      <div class="dashboard-detail-modal">
+        <div class="detail-header">
+          <button class="nav-btn prev-btn" onclick="prevDetailSlide()">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+
+          <div class="detail-title-container">
+            <div class="detail-icon" id="detailIcon">
+              <i class="fas fa-wallet"></i>
+            </div>
+            <div>
+              <h3 id="detailMainTitle">Detail Kredit</h3>
+              <p id="detailSubtitle">Informasi lengkap dan analisis mendalam</p>
+            </div>
+          </div>
+
+          <button class="nav-btn next-btn" onclick="nextDetailSlide()">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+
+          <button class="close-modal" onclick="closeDetailModal()">
+            &times;
+          </button>
+        </div>
+
+        <div class="detail-indicator">
+          <div class="indicator-dots">
+            <span class="indicator-dot active" data-slide="0"></span>
+            <span class="indicator-dot" data-slide="1"></span>
+            <span class="indicator-dot" data-slide="2"></span>
+            <span class="indicator-dot" data-slide="3"></span>
+          </div>
+          <span class="indicator-text" id="currentSlideText">1 dari 4</span>
+        </div>
+
+        <div class="detail-content">
+          <!-- Slide 1: Kredit Tersedia -->
+          <div class="detail-slide active" id="slide1">
+            <div class="detail-header-slide">
+              <h4>Analisis Kredit Tersedia</h4>
+              <span class="slide-badge active">Real-time</span>
+            </div>
+
+            <div class="detail-main-stats">
+              <div class="main-stat-card">
+                <div class="main-stat-icon">
+                  <i class="fas fa-wallet"></i>
+                </div>
+                <div class="main-stat-content">
+                  <h5>Total Kredit Tersedia</h5>
+                  <p class="main-stat-value">Rp 25.000.000</p>
+                  <p class="main-stat-change positive">+12% dari bulan lalu</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="detail-grid">
+              <div class="detail-card">
+                <div class="detail-card-header">
+                  <i class="fas fa-chart-pie"></i>
+                  <h6>Distribusi Kredit</h6>
+                </div>
+                <div class="donut-chart">
+                  <div class="chart-container">
+                    <canvas
+                      id="creditDistributionChart"
+                      width="200"
+                      height="200"
+                    ></canvas>
+                  </div>
+                  <div class="chart-legend">
+                    <div class="legend-item">
+                      <span
+                        class="legend-color"
+                        style="background-color: #7c3aed"
+                      ></span>
+                      <span>UMKM Makanan (35%)</span>
+                    </div>
+                    <div class="legend-item">
+                      <span
+                        class="legend-color"
+                        style="background-color: #10b981"
+                      ></span>
+                      <span>Retail (25%)</span>
+                    </div>
+                    <div class="legend-item">
+                      <span
+                        class="legend-color"
+                        style="background-color: #f59e0b"
+                      ></span>
+                      <span>Jasa (20%)</span>
+                    </div>
+                    <div class="legend-item">
+                      <span
+                        class="legend-color"
+                        style="background-color: #3b82f6"
+                      ></span>
+                      <span>Pertanian (15%)</span>
+                    </div>
+                    <div class="legend-item">
+                      <span
+                        class="legend-color"
+                        style="background-color: #ef4444"
+                      ></span>
+                      <span>Lainnya (5%)</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="detail-card">
+                <div class="detail-card-header">
+                  <i class="fas fa-calendar-alt"></i>
+                  <h6>Trend Bulanan</h6>
+                </div>
+                <div class="trend-chart">
+                  <canvas id="monthlyTrendChart" height="120"></canvas>
+                </div>
+                <div class="trend-stats">
+                  <div class="trend-stat">
+                    <span>Rata-rata bulanan</span>
+                    <span class="trend-value">Rp 22.5M</span>
+                  </div>
+                  <div class="trend-stat">
+                    <span>Pertumbuhan</span>
+                    <span class="trend-value positive">+3.2%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="detail-table">
+              <h6>Alokasi Kredit per Sektor</h6>
+              <table class="detail-data-table">
+                <thead>
+                  <tr>
+                    <th>Sektor UMKM</th>
+                    <th>Jumlah Kredit</th>
+                    <th>Jumlah UMKM</th>
+                    <th>Rata-rata per UMKM</th>
+                    <th>Performance</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="sector-info">
+                        <i class="fas fa-utensils"></i>
+                        <span>Makanan & Minuman</span>
+                      </div>
+                    </td>
+                    <td>Rp 8.75M</td>
+                    <td>7</td>
+                    <td>Rp 1.25M</td>
+                    <td>
+                      <span class="performance-badge excellent">95%</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="sector-info">
+                        <i class="fas fa-store"></i>
+                        <span>Retail</span>
+                      </div>
+                    </td>
+                    <td>Rp 6.25M</td>
+                    <td>5</td>
+                    <td>Rp 1.25M</td>
+                    <td><span class="performance-badge good">88%</span></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="sector-info">
+                        <i class="fas fa-tools"></i>
+                        <span>Jasa</span>
+                      </div>
+                    </td>
+                    <td>Rp 5M</td>
+                    <td>4</td>
+                    <td>Rp 1.25M</td>
+                    <td><span class="performance-badge good">85%</span></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="sector-info">
+                        <i class="fas fa-seedling"></i>
+                        <span>Pertanian</span>
+                      </div>
+                    </td>
+                    <td>Rp 3.75M</td>
+                    <td>3</td>
+                    <td>Rp 1.25M</td>
+                    <td><span class="performance-badge moderate">78%</span></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="sector-info">
+                        <i class="fas fa-industry"></i>
+                        <span>Lainnya</span>
+                      </div>
+                    </td>
+                    <td>Rp 1.25M</td>
+                    <td>1</td>
+                    <td>Rp 1.25M</td>
+                    <td><span class="performance-badge moderate">75%</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="detail-insights">
+              <div class="insight-header">
+                <i class="fas fa-lightbulb"></i>
+                <h6>Wawasan & Rekomendasi</h6>
+              </div>
+              <div class="insight-content">
+                <p>
+                  <strong>Analisis AI:</strong> Kredit tersedia Anda cukup sehat
+                  dengan pertumbuhan 12% bulan lalu. Sektor makanan & minuman
+                  menunjukkan performa terbaik dengan repayment rate 95%.
+                </p>
+                <p>
+                  <strong>Rekomendasi:</strong> Pertimbangkan alokasi tambahan
+                  ke sektor makanan & minuman yang memiliki track record
+                  pembayaran terbaik. Batasi eksposur ke sektor baru hingga
+                  maksimal 15% dari total kredit.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 2: Pengajuan Aktif -->
+          <div class="detail-slide" id="slide2">
+            <div class="detail-header-slide">
+              <h4>Analisis Pengajuan Aktif</h4>
+              <span class="slide-badge warning">Perlu Perhatian</span>
+            </div>
+
+            <div class="detail-main-stats">
+              <div class="main-stat-card">
+                <div class="main-stat-icon">
+                  <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="main-stat-content">
+                  <h5>Total Pengajuan Aktif</h5>
+                  <p class="main-stat-value">8 Permohonan</p>
+                  <p class="main-stat-change warning">3 menunggu review</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="detail-grid">
+              <div class="detail-card">
+                <div class="detail-card-header">
+                  <i class="fas fa-hourglass-half"></i>
+                  <h6>Status Pengajuan</h6>
+                </div>
+                <div class="status-chart">
+                  <canvas
+                    id="applicationStatusChart"
+                    width="200"
+                    height="200"
+                  ></canvas>
+                </div>
+                <div class="status-summary">
+                  <div class="status-item">
+                    <span class="status-dot pending"></span>
+                    <span>Review AI: 3</span>
+                  </div>
+                  <div class="status-item">
+                    <span class="status-dot processing"></span>
+                    <span>Operator: 2</span>
+                  </div>
+                  <div class="status-item">
+                    <span class="status-dot approved"></span>
+                    <span>Disetujui: 2</span>
+                  </div>
+                  <div class="status-item">
+                    <span class="status-dot rejected"></span>
+                    <span>Ditolak: 1</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="detail-card">
+                <div class="detail-card-header">
+                  <i class="fas fa-history"></i>
+                  <h6>Waktu Pemrosesan</h6>
+                </div>
+                <div class="timeline-container">
+                  <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                      <h6>Pengajuan Baru</h6>
+                      <p>Rata-rata: 2 jam</p>
+                    </div>
+                  </div>
+                  <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                      <h6>Analisis AI</h6>
+                      <p>Rata-rata: 4 jam</p>
+                    </div>
+                  </div>
+                  <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                      <h6>Review Operator</h6>
+                      <p>Rata-rata: 24 jam</p>
+                    </div>
+                  </div>
+                  <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                      <h6>Approval</h6>
+                      <p>Rata-rata: 2 jam</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="timeline-summary">
+                  <p><strong>Total rata-rata:</strong> 30 jam</p>
+                  <p class="positive">-15% dari bulan lalu</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="detail-table">
+              <h6>Detail Pengajuan Aktif</h6>
+              <table class="detail-data-table">
+                <thead>
+                  <tr>
+                    <th>ID Pengajuan</th>
+                    <th>Nama UMKM</th>
+                    <th>Jumlah</th>
+                    <th>Status</th>
+                    <th>Durasi</th>
+                    <th>Estimasi Selesai</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>KMA-2023-001</td>
+                    <td>Toko Sembako Makmur</td>
+                    <td>Rp 2M</td>
+                    <td><span class="status-badge pending">Review AI</span></td>
+                    <td>2 jam</td>
+                    <td>Hari ini, 14:00</td>
+                  </tr>
+                  <tr>
+                    <td>KMA-2023-002</td>
+                    <td>Warung Makan Padang</td>
+                    <td>Rp 150Juta</td>
+                    <td>
+                      <span class="status-badge processing">Operator</span>
+                    </td>
+                    <td>18 jam</td>
+                    <td>Besok, 10:00</td>
+                  </tr>
+                  <tr>
+                    <td>KMA-2023-003</td>
+                    <td>Bengkel Motor Jaya</td>
+                    <td>Rp 800Juta</td>
+                    <td><span class="status-badge pending">Review AI</span></td>
+                    <td>1 jam</td>
+                    <td>Hari ini, 12:00</td>
+                  </tr>
+                  <tr>
+                    <td>KMA-2023-004</td>
+                    <td>Kedai Kopi Nusantara</td>
+                    <td>Rp 50Juta</td>
+                    <td>
+                      <span class="status-badge approved">Disetujui</span>
+                    </td>
+                    <td>28 jam</td>
+                    <td>Selesai</td>
+                  </tr>
+                  <tr>
+                    <td>KMA-2023-005</td>
+                    <td>Toko Elektronik Maju</td>
+                    <td>Rp 1,5M</td>
+                    <td><span class="status-badge rejected">Ditolak</span></td>
+                    <td>24 jam</td>
+                    <td>Selesai</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="detail-insights">
+              <div class="insight-header">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h6>Perhatian & Tindakan</h6>
+              </div>
+              <div class="insight-content">
+                <p>
+                  <strong>Bottleneck:</strong> 3 pengajuan tertahan di tahap
+                  Review AI karena dokumen tidak lengkap. Rata-rata waktu review
+                  operator meningkat 15%.
+                </p>
+                <p>
+                  <strong>Tindakan yang diperlukan:</strong> <br />1. Follow up
+                  dokumen untuk KMA-2023-001 dan 003 <br />2. Prioritaskan
+                  review untuk pengajuan yang sudah >24 jam <br />3.
+                  Pertimbangkan penambahan operator untuk peak hours
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 3: Kredit Disetujui -->
+          <div class="detail-slide" id="slide3">
+            <div class="detail-header-slide">
+              <h4>Analisis Kredit Disetujui</h4>
+              <span class="slide-badge success">Sangat Baik</span>
+            </div>
+
+            <div class="detail-main-stats">
+              <div class="main-stat-card">
+                <div class="main-stat-icon">
+                  <i class="fas fa-handshake"></i>
+                </div>
+                <div class="main-stat-content">
+                  <h5>Total Kredit Disetujui</h5>
+                  <p class="main-stat-value">Rp 185.000.000</p>
+                  <p class="main-stat-change positive">15 UMKM terbantu</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="detail-grid">
+              <div class="detail-card">
+                <div class="detail-card-header">
+                  <i class="fas fa-chart-bar"></i>
+                  <h6>Performance Kredit</h6>
+                </div>
+                <div class="performance-chart">
+                  <canvas id="creditPerformanceChart" height="150"></canvas>
+                </div>
+                <div class="performance-metrics">
+                  <div class="metric">
+                    <span>NPL Ratio</span>
+                    <span class="metric-value excellent">2.1%</span>
+                  </div>
+                  <div class="metric">
+                    <span>Repayment Rate</span>
+                    <span class="metric-value excellent">97.9%</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="detail-card">
+                <div class="detail-card-header">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <h6>Distribusi Geografis</h6>
+                </div>
+                <div class="regional-distribution">
+                  <div class="region-item">
+                    <span class="region-name">Jawa Barat</span>
+                    <div class="region-bar">
+                      <div
+                        class="region-fill"
+                        style="width: 40%; background: #7c3aed"
+                      ></div>
+                    </div>
+                    <span class="region-value">Rp 74M (40%)</span>
+                  </div>
+                  <div class="region-item">
+                    <span class="region-name">Jawa Tengah</span>
+                    <div class="region-bar">
+                      <div
+                        class="region-fill"
+                        style="width: 30%; background: #10b981"
+                      ></div>
+                    </div>
+                    <span class="region-value">Rp 55.5M (30%)</span>
+                  </div>
+                  <div class="region-item">
+                    <span class="region-name">Jawa Timur</span>
+                    <div class="region-bar">
+                      <div
+                        class="region-fill"
+                        style="width: 20%; background: #f59e0b"
+                      ></div>
+                    </div>
+                    <span class="region-value">Rp 37M (20%)</span>
+                  </div>
+                  <div class="region-item">
+                    <span class="region-name">Lainnya</span>
+                    <div class="region-bar">
+                      <div
+                        class="region-fill"
+                        style="width: 10%; background: #3b82f6"
+                      ></div>
+                    </div>
+                    <span class="region-value">Rp 18.5M (10%)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="detail-table">
+              <h6>Top Performing UMKM</h6>
+              <table class="detail-data-table">
+                <thead>
+                  <tr>
+                    <th>Nama UMKM</th>
+                    <th>Jumlah Kredit</th>
+                    <th>Tenor</th>
+                    <th>Pembayaran</th>
+                    <th>Rating</th>
+                    <th>Impact Score</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="umkm-info">
+                        <i class="fas fa-utensils"></i>
+                        <span>Kedai Kopi Nusantara</span>
+                      </div>
+                    </td>
+                    <td>Rp 1,5M</td>
+                    <td>24 bulan</td>
+                    <td><span class="payment-status excellent">100%</span></td>
+                    <td><span class="star-rating">★★★★★</span></td>
+                    <td><span class="impact-score high">92</span></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="umkm-info">
+                        <i class="fas fa-store"></i>
+                        <span>Toko Sembako Makmur</span>
+                      </div>
+                    </td>
+                    <td>Rp 2M</td>
+                    <td>18 bulan</td>
+                    <td><span class="payment-status excellent">100%</span></td>
+                    <td><span class="star-rating">★★★★★</span></td>
+                    <td><span class="impact-score high">89</span></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="umkm-info">
+                        <i class="fas fa-tools"></i>
+                        <span>Bengkel Motor Jaya</span>
+                      </div>
+                    </td>
+                    <td>Rp 800 Juta</td>
+                    <td>12 bulan</td>
+                    <td><span class="payment-status good">95%</span></td>
+                    <td><span class="star-rating">★★★★☆</span></td>
+                    <td><span class="impact-score medium">85</span></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="umkm-info">
+                        <i class="fas fa-seedling"></i>
+                        <span>Kebun Sayur Organik</span>
+                      </div>
+                    </td>
+                    <td>Rp 25 Juta</td>
+                    <td>24 bulan</td>
+                    <td><span class="payment-status good">92%</span></td>
+                    <td><span class="star-rating">★★★★☆</span></td>
+                    <td><span class="impact-score medium">82</span></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="umkm-info">
+                        <i class="fas fa-tshirt"></i>
+                        <span>Konveksi Batik Modern</span>
+                      </div>
+                    </td>
+                    <td>Rp 95 Juta</td>
+                    <td>12 bulan</td>
+                    <td><span class="payment-status moderate">85%</span></td>
+                    <td><span class="star-rating">★★★☆☆</span></td>
+                    <td><span class="impact-score low">75</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="detail-insights">
+              <div class="insight-header">
+                <i class="fas fa-chart-line"></i>
+                <h6>Analisis & Proyeksi</h6>
+              </div>
+              <div class="insight-content">
+                <p>
+                  <strong>Performance Outstanding:</strong> NPL ratio hanya 2.1%
+                  (industri rata-rata 5-7%). Repayment rate 97.9% menunjukkan
+                  UMKM yang dibiayai sangat responsible.
+                </p>
+                <p>
+                  <strong>Proyeksi Q1 2024:</strong> <br />• Target kredit
+                  disetujui: Rp 250M <br />• Target UMKM terbantu: 25 <br />•
+                  Target NPL ratio: < 3% <br />• ROI proyeksi: 185%
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 4: Rating Sistem -->
+          <div class="detail-slide" id="slide4">
+            <div class="detail-header-slide">
+              <h4>Analisis Rating Sistem</h4>
+              <span class="slide-badge excellent">Excellent</span>
+            </div>
+
+            <div class="detail-main-stats">
+              <div class="main-stat-card">
+                <div class="main-stat-icon">
+                  <i class="fas fa-star"></i>
+                </div>
+                <div class="main-stat-content">
+                  <h5>Overall System Rating</h5>
+                  <p class="main-stat-value">4.8/5.0</p>
+                  <p class="main-stat-change positive">96% kepuasan pengguna</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="detail-grid">
+              <div class="detail-card">
+                <div class="detail-card-header">
+                  <i class="fas fa-chart-bar"></i>
+                  <h6>Distribusi Rating</h6>
+                </div>
+                <div class="rating-distribution">
+                  <div class="rating-item">
+                    <span>5★</span>
+                    <div class="rating-bar">
+                      <div class="rating-fill" style="width: 65%"></div>
+                    </div>
+                    <span>65%</span>
+                  </div>
+                  <div class="rating-item">
+                    <span>4★</span>
+                    <div class="rating-bar">
+                      <div class="rating-fill" style="width: 25%"></div>
+                    </div>
+                    <span>25%</span>
+                  </div>
+                  <div class="rating-item">
+                    <span>3★</span>
+                    <div class="rating-bar">
+                      <div class="rating-fill" style="width: 7%"></div>
+                    </div>
+                    <span>7%</span>
+                  </div>
+                  <div class="rating-item">
+                    <span>2★</span>
+                    <div class="rating-bar">
+                      <div class="rating-fill" style="width: 2%"></div>
+                    </div>
+                    <span>2%</span>
+                  </div>
+                  <div class="rating-item">
+                    <span>1★</span>
+                    <div class="rating-bar">
+                      <div class="rating-fill" style="width: 1%"></div>
+                    </div>
+                    <span>1%</span>
+                  </div>
+                </div>
+                <div class="rating-summary">
+                  <p>
+                    <strong>NPS Score:</strong>
+                    <span class="nps-score excellent">+68</span>
+                  </p>
+                  <p>Industry Average: +42</p>
+                </div>
+              </div>
+
+              <div class="detail-card">
+                <div class="detail-card-header">
+                  <i class="fas fa-poll"></i>
+                  <h6>Kategori Rating</h6>
+                </div>
+                <div class="category-ratings">
+                  <div class="category-item">
+                    <span>User Experience</span>
+                    <div class="category-stars">
+                      <span class="stars">★★★★★</span>
+                      <span class="rating-value">4.9</span>
+                    </div>
+                  </div>
+                  <div class="category-item">
+                    <span>Kecepatan Proses</span>
+                    <div class="category-stars">
+                      <span class="stars">★★★★☆</span>
+                      <span class="rating-value">4.7</span>
+                    </div>
+                  </div>
+                  <div class="category-item">
+                    <span>Keakuratan AI</span>
+                    <div class="category-stars">
+                      <span class="stars">★★★★★</span>
+                      <span class="rating-value">4.8</span>
+                    </div>
+                  </div>
+                  <div class="category-item">
+                    <span>Customer Support</span>
+                    <div class="category-stars">
+                      <span class="stars">★★★★☆</span>
+                      <span class="rating-value">4.6</span>
+                    </div>
+                  </div>
+                  <div class="category-item">
+                    <span>Kemudahan Penggunaan</span>
+                    <div class="category-stars">
+                      <span class="stars">★★★★★</span>
+                      <span class="rating-value">4.9</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="detail-table">
+              <h6>Testimoni Pengguna Terbaru</h6>
+              <div class="testimonial-grid">
+                <div class="testimonial-card">
+                  <div class="testimonial-header">
+                    <div class="user-info">
+                      <div class="user-avatar">
+                        <i class="fas fa-user-circle"></i>
+                      </div>
+                      <div>
+                        <h6>Budi Santoso</h6>
+                        <span>Pemilik Warung Makan</span>
+                      </div>
+                    </div>
+                    <div class="testimonial-rating">
+                      <span class="stars">★★★★★</span>
+                      <span>2 hari lalu</span>
+                    </div>
+                  </div>
+                  <p class="testimonial-text">
+                    "Proses pengajuan kredit sangat cepat dan mudah. Dana cair
+                    dalam 2 hari kerja. AI analysis sangat membantu mengetahui
+                    kelayakan usaha saya."
+                  </p>
+                </div>
+
+                <div class="testimonial-card">
+                  <div class="testimonial-header">
+                    <div class="user-info">
+                      <div class="user-avatar">
+                        <i class="fas fa-user-circle"></i>
+                      </div>
+                      <div>
+                        <h6>Sari Wijaya</h6>
+                        <span>Pemilik Toko Kelontong</span>
+                      </div>
+                    </div>
+                    <div class="testimonial-rating">
+                      <span class="stars">★★★★☆</span>
+                      <span>1 minggu lalu</span>
+                    </div>
+                  </div>
+                  <p class="testimonial-text">
+                    "Sistem yang user friendly, namun customer support perlu
+                    lebih responsif. Overall sangat membantu ekspansi usaha
+                    saya."
+                  </p>
+                </div>
+
+                <div class="testimonial-card">
+                  <div class="testimonial-header">
+                    <div class="user-info">
+                      <div class="user-avatar">
+                        <i class="fas fa-user-circle"></i>
+                      </div>
+                      <div>
+                        <h6>Agus Prasetyo</h6>
+                        <span>Petani Organik</span>
+                      </div>
+                    </div>
+                    <div class="testimonial-rating">
+                      <span class="stars">★★★★★</span>
+                      <span>2 minggu lalu</span>
+                    </div>
+                  </div>
+                  <p class="testimonial-text">
+                    "Kredit mikro AI sangat membantu petani seperti saya. Bunga
+                    terjangkau dan proses tidak berbelit. Terima kasih!"
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="detail-insights">
+              <div class="insight-header">
+                <i class="fas fa-bullseye"></i>
+                <h6>Analisis Sentimen & Improvement</h6>
+              </div>
+              <div class="insight-content">
+                <p>
+                  <strong>Sentimen Positif (85%):</strong> User experience,
+                  kecepatan proses, dan akurasi AI mendapatkan feedback sangat
+                  positif.
+                </p>
+                <p>
+                  <strong>Area Perbaikan (15%):</strong> <br />1. Responsivitas
+                  customer support (23 complaints) <br />2. Klarifikasi
+                  penolakan kredit (18 complaints) <br />3. Notifikasi yang
+                  terlalu sering (12 complaints)
+                </p>
+                <p>
+                  <strong>Rekomendasi:</strong> Implementasi live chat 24/7,
+                  improvement rejection reason transparency, dan notification
+                  preferences.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-actions">
+          <button class="btn-secondary" onclick="exportDetailData()">
+            <i class="fas fa-file-export"></i>
+            <span>Ekspor Data</span>
+          </button>
+          <button class="btn-primary" onclick="shareDashboardInsights()">
+            <i class="fas fa-share-alt"></i>
+            <span>Bagikan Insight</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Kemudahan Pembayaran Cicilan Card -->
+    <div class="dashboard-card feature-card">
+      <div class="card-header">
+        <div class="card-icon">
+          <i class="fas fa-credit-card"></i>
+        </div>
+        <h3 id="paymentTitle">Kemudahan Pembayaran Cicilan</h3>
+        <span class="card-badge active" id="paymentBadge">Fitur Baru</span>
+      </div>
+
+      <p id="paymentDescription">
+        Bayar cicilan kredit dengan berbagai metode yang mudah, cepat, dan aman.
+        Pantau jadwal pembayaran dan nikmati kemudahan tanpa harus ke bank.
+      </p>
+
+      <div class="payment-methods">
+        <div class="method-tags">
+          <span
+            class="method-tag active"
+            onclick="selectPaymentMethod('bank_transfer')"
+          >
+            <i class="fas fa-university"></i>
+            <span id="method1Text">Transfer Bank</span>
+          </span>
+          <span class="method-tag" onclick="selectPaymentMethod('ewallet')">
+            <i class="fas fa-mobile-alt"></i>
+            <span id="method2Text">E-Wallet</span>
+          </span>
+          <span
+            class="method-tag"
+            onclick="selectPaymentMethod('virtual_account')"
+          >
+            <i class="fas fa-qrcode"></i>
+            <span id="method3Text">Virtual Account</span>
+          </span>
+          <span class="method-tag" onclick="selectPaymentMethod('autodebit')">
+            <i class="fas fa-sync-alt"></i>
+            <span id="method4Text">Auto Debit</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="payment-status">
+        <div class="payment-info">
+          <div class="payment-detail">
+            <span class="detail-label" id="nextPaymentLabel"
+              >Cicilan Berikutnya</span
+            >
+            <span class="detail-value" id="nextPaymentDate">25 Okt 2023</span>
+          </div>
+          <div class="payment-detail">
+            <span class="detail-label" id="amountDueLabel">Jumlah Tagihan</span>
+            <span class="detail-value" id="amountDue">Rp 687.500</span>
+          </div>
+          <div class="payment-detail">
+            <span class="detail-label" id="paymentStatusLabel">Status</span>
+            <span class="payment-status-badge active" id="paymentStatusText"
+              >Aktif</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="payment-history">
+        <h4 id="paymentHistoryTitle">Riwayat Pembayaran Terakhir</h4>
+        <div class="history-list">
+          <div class="history-item">
+            <i class="fas fa-check-circle success"></i>
+            <div class="history-content">
+              <span class="history-date">25 Sep 2023</span>
+              <span class="history-method" id="historyMethod1"
+                >Transfer Bank BRI</span
+              >
+              <span class="history-amount">Rp 687.500</span>
+            </div>
+          </div>
+          <div class="history-item">
+            <i class="fas fa-check-circle success"></i>
+            <div class="history-content">
+              <span class="history-date">25 Agt 2023</span>
+              <span class="history-method" id="historyMethod2">GoPay</span>
+              <span class="history-amount">Rp 687.500</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <button class="btn-primary card-btn" onclick="openPaymentModal()">
+          <i class="fas fa-money-bill-wave"></i>
+          <span id="payNowBtnText">Bayar Sekarang</span>
+        </button>
+        <button class="btn-secondary" onclick="viewPaymentSchedule()">
+          <i class="fas fa-calendar-alt"></i>
+          <span id="scheduleBtnText">Jadwal Bayar</span>
+        </button>
+        <button class="btn-outline" onclick="setupAutoPayment()">
+          <i class="fas fa-cog"></i>
+          <span id="autoPayBtnText">Atur Auto Pay</span>
+        </button>
+      </div>
+    </div>
+    <!-- untuk menampilkan chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <script src="script.js"></script>
+  </body>
+</html>
