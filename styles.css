@@ -782,7 +782,7 @@ body {
 /* Dashboard Grid */
 .dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
   gap: 30px;
   margin: 40px 0;
 }
@@ -5538,7 +5538,7 @@ img {
 /* Perbaikan untuk grid layout */
 .dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
   gap: 30px;
   margin: 40px 0;
   align-items: start; /* Penting: mencegah stretching berlebihan */
@@ -5787,7 +5787,7 @@ img {
 /* PERBAIKAN UNTUK DASHBOARD GRID */
 .dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
   gap: 30px;
   margin: 40px 0;
   align-items: stretch; /* Ini yang penting! */
