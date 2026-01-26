@@ -732,6 +732,108 @@
           </div>
         </div>
 
+            <div class="dashboard-card feature-card">
+      <div class="card-header">
+        <div class="card-icon">
+          <i class="fas fa-credit-card"></i>
+        </div>
+        <h3 id="paymentTitle">Kemudahan Pembayaran Cicilan</h3>
+        <span class="card-badge active" id="paymentBadge">Fitur Baru</span>
+      </div>
+
+      <p id="paymentDescription">
+        Bayar cicilan kredit dengan berbagai metode yang mudah, cepat, dan aman.
+        Pantau jadwal pembayaran dan nikmati kemudahan tanpa harus ke bank.
+      </p>
+
+      <div class="payment-methods">
+        <div class="method-tags">
+          <span
+            class="method-tag active"
+            onclick="selectPaymentMethod('bank_transfer')"
+          >
+            <i class="fas fa-university"></i>
+            <span id="method1Text">Transfer Bank</span>
+          </span>
+          <span class="method-tag" onclick="selectPaymentMethod('ewallet')">
+            <i class="fas fa-mobile-alt"></i>
+            <span id="method2Text">E-Wallet</span>
+          </span>
+          <span
+            class="method-tag"
+            onclick="selectPaymentMethod('virtual_account')"
+          >
+            <i class="fas fa-qrcode"></i>
+            <span id="method3Text">Virtual Account</span>
+          </span>
+          <span class="method-tag" onclick="selectPaymentMethod('autodebit')">
+            <i class="fas fa-sync-alt"></i>
+            <span id="method4Text">Auto Debit</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="payment-status">
+        <div class="payment-info">
+          <div class="payment-detail">
+            <span class="detail-label" id="nextPaymentLabel"
+              >Cicilan Berikutnya</span
+            >
+            <span class="detail-value" id="nextPaymentDate">25 Okt 2023</span>
+          </div>
+          <div class="payment-detail">
+            <span class="detail-label" id="amountDueLabel">Jumlah Tagihan</span>
+            <span class="detail-value" id="amountDue">Rp 687.500</span>
+          </div>
+          <div class="payment-detail">
+            <span class="detail-label" id="paymentStatusLabel">Status</span>
+            <span class="payment-status-badge active" id="paymentStatusText"
+              >Aktif</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="payment-history">
+        <h4 id="paymentHistoryTitle">Riwayat Pembayaran Terakhir</h4>
+        <div class="history-list">
+          <div class="history-item">
+            <i class="fas fa-check-circle success"></i>
+            <div class="history-content">
+              <span class="history-date">25 Sep 2023</span>
+              <span class="history-method" id="historyMethod1"
+                >Transfer Bank BRI</span
+              >
+              <span class="history-amount">Rp 687.500</span>
+            </div>
+          </div>
+          <div class="history-item">
+            <i class="fas fa-check-circle success"></i>
+            <div class="history-content">
+              <span class="history-date">25 Agt 2023</span>
+              <span class="history-method" id="historyMethod2">GoPay</span>
+              <span class="history-amount">Rp 687.500</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <button class="btn-primary card-btn" onclick="openPaymentModal()">
+          <i class="fas fa-money-bill-wave"></i>
+          <span id="payNowBtnText">Bayar Sekarang</span>
+        </button>
+        <button class="btn-secondary" onclick="viewPaymentSchedule()">
+          <i class="fas fa-calendar-alt"></i>
+          <span id="scheduleBtnText">Jadwal Bayar</span>
+        </button>
+        <button class="btn-outline" onclick="setupAutoPayment()">
+          <i class="fas fa-cog"></i>
+          <span id="autoPayBtnText">Atur Auto Pay</span>
+        </button>
+      </div>
+    </div>
+        
         <!-- Fitur Tambahan yang Dikembangkan -->
         <div class="additional-features expanded">
           <div class="section-header">
@@ -3128,107 +3230,7 @@
     </div>
 
     <!-- Kemudahan Pembayaran Cicilan Card -->
-    <div class="dashboard-card feature-card">
-      <div class="card-header">
-        <div class="card-icon">
-          <i class="fas fa-credit-card"></i>
-        </div>
-        <h3 id="paymentTitle">Kemudahan Pembayaran Cicilan</h3>
-        <span class="card-badge active" id="paymentBadge">Fitur Baru</span>
-      </div>
 
-      <p id="paymentDescription">
-        Bayar cicilan kredit dengan berbagai metode yang mudah, cepat, dan aman.
-        Pantau jadwal pembayaran dan nikmati kemudahan tanpa harus ke bank.
-      </p>
-
-      <div class="payment-methods">
-        <div class="method-tags">
-          <span
-            class="method-tag active"
-            onclick="selectPaymentMethod('bank_transfer')"
-          >
-            <i class="fas fa-university"></i>
-            <span id="method1Text">Transfer Bank</span>
-          </span>
-          <span class="method-tag" onclick="selectPaymentMethod('ewallet')">
-            <i class="fas fa-mobile-alt"></i>
-            <span id="method2Text">E-Wallet</span>
-          </span>
-          <span
-            class="method-tag"
-            onclick="selectPaymentMethod('virtual_account')"
-          >
-            <i class="fas fa-qrcode"></i>
-            <span id="method3Text">Virtual Account</span>
-          </span>
-          <span class="method-tag" onclick="selectPaymentMethod('autodebit')">
-            <i class="fas fa-sync-alt"></i>
-            <span id="method4Text">Auto Debit</span>
-          </span>
-        </div>
-      </div>
-
-      <div class="payment-status">
-        <div class="payment-info">
-          <div class="payment-detail">
-            <span class="detail-label" id="nextPaymentLabel"
-              >Cicilan Berikutnya</span
-            >
-            <span class="detail-value" id="nextPaymentDate">25 Okt 2023</span>
-          </div>
-          <div class="payment-detail">
-            <span class="detail-label" id="amountDueLabel">Jumlah Tagihan</span>
-            <span class="detail-value" id="amountDue">Rp 687.500</span>
-          </div>
-          <div class="payment-detail">
-            <span class="detail-label" id="paymentStatusLabel">Status</span>
-            <span class="payment-status-badge active" id="paymentStatusText"
-              >Aktif</span
-            >
-          </div>
-        </div>
-      </div>
-
-      <div class="payment-history">
-        <h4 id="paymentHistoryTitle">Riwayat Pembayaran Terakhir</h4>
-        <div class="history-list">
-          <div class="history-item">
-            <i class="fas fa-check-circle success"></i>
-            <div class="history-content">
-              <span class="history-date">25 Sep 2023</span>
-              <span class="history-method" id="historyMethod1"
-                >Transfer Bank BRI</span
-              >
-              <span class="history-amount">Rp 687.500</span>
-            </div>
-          </div>
-          <div class="history-item">
-            <i class="fas fa-check-circle success"></i>
-            <div class="history-content">
-              <span class="history-date">25 Agt 2023</span>
-              <span class="history-method" id="historyMethod2">GoPay</span>
-              <span class="history-amount">Rp 687.500</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card-actions">
-        <button class="btn-primary card-btn" onclick="openPaymentModal()">
-          <i class="fas fa-money-bill-wave"></i>
-          <span id="payNowBtnText">Bayar Sekarang</span>
-        </button>
-        <button class="btn-secondary" onclick="viewPaymentSchedule()">
-          <i class="fas fa-calendar-alt"></i>
-          <span id="scheduleBtnText">Jadwal Bayar</span>
-        </button>
-        <button class="btn-outline" onclick="setupAutoPayment()">
-          <i class="fas fa-cog"></i>
-          <span id="autoPayBtnText">Atur Auto Pay</span>
-        </button>
-      </div>
-    </div>
     <!-- untuk menampilkan chart -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
